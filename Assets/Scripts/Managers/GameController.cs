@@ -89,6 +89,8 @@ public class GameController : MonoBehaviour
     {
         EventManager.Instance.TriggerEvent(EventNames.GameStop);
         
+        EventManager.Instance.TriggerEvent(EventNames.ResetBlastables);
+        
         var currentLevelIndex = PersistenceManager.GetCurrentLevelIndex();
         currentLevelIndex++;
         PersistenceManager.SetCurrentLevelIndex(currentLevelIndex);
@@ -99,6 +101,8 @@ public class GameController : MonoBehaviour
     private void OnLevelFail()
     {
         EventManager.Instance.TriggerEvent(EventNames.GameStop);
+        
+        EventManager.Instance.TriggerEvent(EventNames.ResetBlastables);
         
         EventManager.Instance.TriggerEvent(EventNames.ShowScreenRequested, typeof(LevelFailScreen), null);
     }

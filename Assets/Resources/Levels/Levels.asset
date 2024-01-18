@@ -62,15 +62,17 @@ MonoBehaviour:
     levelPrefab: {fileID: 2270460017296243857, guid: 4fcafb90b6cfa884182cdf68eef4690a, type: 3}
     colorPercentages:
     - color: 0
-      percentage: 40
+      percentage: 5
     - color: 1
-      percentage: 40
+      percentage: 5
     - color: 4
       percentage: 10
     - color: 3
-      percentage: 10
+      percentage: 40
+    - color: 2
+      percentage: 40
     targetColors:
-    - color: 0
-      count: 20
-    - color: 1
-      count: 20
+    - color: 2
+      count: 25
+    - color: 3
+      count: 25

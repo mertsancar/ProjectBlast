@@ -24,6 +24,11 @@ namespace Managers
         public int poolSize = 0;
         public int currentBubbleSize = 0;
         
+        private void Awake()
+        {
+            blastables = new List<BaseBlastable>();
+        }
+
         private void Update()
         {
             poolSize = blastablePooling.transform.childCount;
@@ -85,6 +90,8 @@ namespace Managers
             yield return new WaitForSeconds(delay);
             
             var indexes = GetBubblesColorIndexes();
+            if (indexes.Count == 0) yield break;
+            
             var bubbleColorList = Enum.GetValues(typeof(BubbleColor)).Cast<BubbleColor>().ToList();
             for (int i = 0; i < bubbleCount; i++)
             {
@@ -184,10 +191,6 @@ namespace Managers
 
         private void ResetAllBlastables()
         {
-            foreach (var blastable in blastables)
-            {
-                Destroy(blastable.gameObject);
-            }
             blastables.Clear();
         }
 

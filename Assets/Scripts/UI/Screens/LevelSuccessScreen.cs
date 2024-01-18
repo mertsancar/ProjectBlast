@@ -2,6 +2,7 @@
 using DG.Tweening;
 using Managers;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace UI.Screens
 {
@@ -28,9 +29,7 @@ namespace UI.Screens
 
         public void OnClickNextButton()
         {
-            HideScreen();
-            
-            EventManager.Instance.TriggerEvent(EventNames.ResetLevel);
+            SceneManager.LoadScene("Game");
         }
     }
 }

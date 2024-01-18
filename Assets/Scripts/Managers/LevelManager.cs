@@ -42,8 +42,6 @@ namespace Managers
 
         private void ResetLevel()
         {
-            EventManager.Instance.TriggerEvent(EventNames.ResetBlastables);
-            
             Destroy(level.gameObject);
             
             EventManager.Instance.TriggerEvent(EventNames.PrepareGame);
