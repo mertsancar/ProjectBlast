@@ -9,7 +9,7 @@ public abstract class BaseBlastable : MonoBehaviour
 {
     public BlastableType blastableType;
     
-    public static readonly float BlastEffectDuration = 0.15f;
+    public static float BlastEffectDuration = 0.15f;
     
     [SerializeField] protected ParticleSystem blastEffect;
     [SerializeField] protected CircleCollider2D collider;

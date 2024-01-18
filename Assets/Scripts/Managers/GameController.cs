@@ -13,11 +13,12 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance;
 
-    public TMP_Text moveCountText;
     public TargetBubblesLayout targetBubblesLayout;
-
     public bool IsPlaying;
-    public int moveCount;
+    
+    [SerializeField] private TMP_Text moveCountText;
+    
+    private int moveCount;
 
     private void Awake()
     {

@@ -31,7 +31,7 @@ public class TargetBubbleCard : MonoBehaviour
             BubbleColor.Green => Color.green,
             BubbleColor.Blue => Color.blue,
             BubbleColor.Pink => Color.magenta,
-            BubbleColor.Orange => Color.yellow,
+            BubbleColor.Yellow => Color.yellow,
             _ => throw new ArgumentOutOfRangeException(nameof(this._color), this._color, null)
         };
     }

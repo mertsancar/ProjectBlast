@@ -21,13 +21,11 @@ public class Bubble : BaseBlastable
             BubbleColor.Green => Color.green,
             BubbleColor.Blue => Color.blue,
             BubbleColor.Pink => Color.magenta,
-            BubbleColor.Orange => Color.yellow,
+            BubbleColor.Yellow => Color.yellow,
             _ => throw new ArgumentOutOfRangeException(nameof(color), color, null)
         };
 
     }
-    
-    public BubbleColor GetColor() => _color;
 
     public override void Tap()
     {
@@ -84,6 +82,8 @@ public class Bubble : BaseBlastable
         });
     }
     
+    public BubbleColor GetColor() => _color;
+    
     private List<int> GetNeighboursBubbles(Bubble currentBall, List<int> neighbourList, List<Bubble> sameColorBalls)
     {
         var currentBallPos = currentBall.transform.position;
@@ -115,6 +115,6 @@ public enum BubbleColor
     Green = 1,
     Blue = 2,
     Pink = 3,
-    Orange = 4,
+    Yellow = 4,
 }
 

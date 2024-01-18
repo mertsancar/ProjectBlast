@@ -7,9 +7,8 @@ using UnityEngine;
 public class Booster : BaseBlastable
 {
     [SerializeField] private List<GameObject> boosterIcons;
-    
+
     private BoosterType _type;
-    public BoosterType GetBoosterType() => _type;
 
     public void Init(BoosterType type)
     {
@@ -59,6 +58,8 @@ public class Booster : BaseBlastable
         EventManager.Instance.TriggerEvent(EventNames.CollectBubbles, collectedIndexes);
         
     }
+    
+    public BoosterType GetBoosterType() => _type;
 }
 
 public enum BoosterType

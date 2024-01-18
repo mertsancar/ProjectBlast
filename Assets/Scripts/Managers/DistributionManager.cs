@@ -20,19 +20,10 @@ namespace Managers
         [SerializeField] private float bubbleInstantiatingForce = 150f;
         
         private float _gotoTargetDuration = 0.1f;
-
-        public int poolSize = 0;
-        public int currentBubbleSize = 0;
         
         private void Awake()
         {
             blastables = new List<BaseBlastable>();
-        }
-
-        private void Update()
-        {
-            poolSize = blastablePooling.transform.childCount;
-            currentBubbleSize = blastablesObject.transform.childCount;
         }
 
         private void Start()

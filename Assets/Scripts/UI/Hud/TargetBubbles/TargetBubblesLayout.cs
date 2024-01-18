@@ -9,6 +9,11 @@ public class TargetBubblesLayout : MonoBehaviour
     [SerializeField] private List<TargetBubbleCard> cards;
     [SerializeField] private Transform layout;
     
+    public void UpdateTargetCards()
+    {
+        Init();
+    }
+    
     public List<TargetBubbleCard> GetTargets() => cards;
     
     public bool CheckTargetsCompleted()
@@ -19,11 +24,6 @@ public class TargetBubblesLayout : MonoBehaviour
         }
 
         return true;
-    }
-
-    public void UpdateTargetCards()
-    {
-        Init();
     }
 
     private void Init()

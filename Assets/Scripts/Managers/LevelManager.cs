@@ -6,8 +6,9 @@ namespace Managers
     public class LevelManager : MonoBehaviour
     {
         public static LevelInfo CurrentLevelInfo;
+        
         private Level level;
-        private int totalLevelCount = 3;
+        private int totalLevelCount;
         
         private void Start()
         {
