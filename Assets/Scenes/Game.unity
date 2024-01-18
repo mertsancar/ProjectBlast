@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 54634072}
   - component: {fileID: 54634071}
   - component: {fileID: 54634070}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -698,7 +698,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1068,17 +1068,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5075c48bbd85d643b245dd8175b707e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bubblePrefabs:
-  - {fileID: 4728229605701377344, guid: 1029dd91c9dfc894aa1343eddf210ebc, type: 3}
-  - {fileID: 8881401918310998318, guid: bd4b7c7a530ed7648a8d6003c59a44ce, type: 3}
-  - {fileID: 2916647800249196877, guid: e814cbba94348824db921610d55cdefe, type: 3}
-  - {fileID: 772684781423411565, guid: 5293bf3dcd639f14eb13e0d3a4e36297, type: 3}
-  - {fileID: 6421880549047771698, guid: d11f4c0c64031444785b8b09c456e54d, type: 3}
-  boosterPrefabs:
-  - {fileID: 7951303044497800540, guid: 7ac3bfad4305efd4b9b84e97cb71e769, type: 3}
+  blastablePooling: {fileID: 1938434043}
   blastablesObject: {fileID: 668652914}
   ballInstantiatingDelay: 0.02
   ballInstantiatingForce: 150
+  poolSize: 0
+  currentBubbleSize: 0
 --- !u!1 &832185635
 GameObject:
   m_ObjectHideFlags: 0
@@ -1091,7 +1086,7 @@ GameObject:
   - component: {fileID: 832185639}
   - component: {fileID: 832185638}
   - component: {fileID: 832185637}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: SoundButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1224,7 +1219,7 @@ GameObject:
   - component: {fileID: 844171919}
   - component: {fileID: 844171921}
   - component: {fileID: 844171920}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: speaker-filled-audio-tool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1487,7 +1482,7 @@ GameObject:
   - component: {fileID: 1047994338}
   - component: {fileID: 1047994340}
   - component: {fileID: 1047994339}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: vibrate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1563,7 +1558,7 @@ GameObject:
   - component: {fileID: 1085545017}
   - component: {fileID: 1085545016}
   - component: {fileID: 1085545015}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1695,7 +1690,7 @@ GameObject:
   - component: {fileID: 1126571075}
   - component: {fileID: 1126571077}
   - component: {fileID: 1126571076}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: close
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2098,7 +2093,7 @@ Transform:
   m_GameObject: {fileID: 1233356860}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.44473428, y: 1.1645361, z: 2016.155}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2159,7 +2154,7 @@ GameObject:
   - component: {fileID: 1422199235}
   - component: {fileID: 1422199237}
   - component: {fileID: 1422199236}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: close
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2273,7 +2268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5529412, g: 0.8431373, b: 0.227451, a: 1}
+  m_Color: {r: 0.019607844, g: 0.7568628, b: 0.3647059, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2481,7 +2476,7 @@ GameObject:
   - component: {fileID: 1515097833}
   - component: {fileID: 1515097835}
   - component: {fileID: 1515097834}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Bg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2496,7 +2491,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1515097832}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1728}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 192, y: 192, z: 192}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2556,7 +2551,7 @@ GameObject:
   - component: {fileID: 1596537205}
   - component: {fileID: 1596537207}
   - component: {fileID: 1596537206}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2602,9 +2597,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Next
-
-'
+  m_text: Again
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ce690193b872f4441a72bed41b64da37, type: 2}
   m_sharedMaterial: {fileID: -323738058265497488, guid: ce690193b872f4441a72bed41b64da37, type: 2}
@@ -2828,7 +2821,7 @@ GameObject:
   - component: {fileID: 1792465297}
   - component: {fileID: 1792465299}
   - component: {fileID: 1792465298}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2904,7 +2897,7 @@ GameObject:
   - component: {fileID: 1797704568}
   - component: {fileID: 1797704567}
   - component: {fileID: 1797704566}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: VibrationButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3209,14 +3202,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa3ab6a71a1ee246aadf6fa457b7473, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardPrefabs:
-  - {fileID: 7343928941848899452, guid: 8e50c2eef8cdfaa4f8e6bd393bb87e8a, type: 3}
-  - {fileID: 2416422100912145356, guid: bbc59c97e36c2e54a87868825553022e, type: 3}
-  - {fileID: 4832528075895940072, guid: 1b20f59c25f742949b2104bfa3f46434, type: 3}
-  - {fileID: 3522534213814818004, guid: 491066c3a4ea3104aae3a2f9368ba6a7, type: 3}
-  - {fileID: 6691983021683466184, guid: 0fbc12104ad8a0648b4d59b73c29b21f, type: 3}
+  cardPrefab: {fileID: 5304707755648397215, guid: fd4675cd296de2f438d3e53a61b8a5b2, type: 3}
   cards: []
   layout: {fileID: 1177706801}
+--- !u!1 &1938434042
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1938434044}
+  - component: {fileID: 1938434043}
+  m_Layer: 0
+  m_Name: BlastablePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1938434043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938434042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 388a279f7964d6b418e15c707309ec87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bubblePrefab: {fileID: 4728229605701377344, guid: e0199e697ef5c474fb5395aeaac30090, type: 3}
+  boosterPrefab: {fileID: 7951303044497800540, guid: 7ac3bfad4305efd4b9b84e97cb71e769, type: 3}
+--- !u!4 &1938434044
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938434042}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1950156951
 GameObject:
   m_ObjectHideFlags: 0
@@ -3229,7 +3263,7 @@ GameObject:
   - component: {fileID: 1950156954}
   - component: {fileID: 1950156953}
   - component: {fileID: 1950156955}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: SettingsButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3562,7 +3596,7 @@ GameObject:
   - component: {fileID: 2083124728}
   - component: {fileID: 2083124730}
   - component: {fileID: 2083124729}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3699,7 +3733,7 @@ GameObject:
   - component: {fileID: 2134759245}
   - component: {fileID: 2134759244}
   - component: {fileID: 2134759243}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3830,6 +3864,7 @@ SceneRoots:
   - {fileID: 1233356862}
   - {fileID: 1164964996}
   - {fileID: 715183819}
+  - {fileID: 1938434044}
   - {fileID: 1458657337}
   - {fileID: 330925421}
   - {fileID: 1476536323}

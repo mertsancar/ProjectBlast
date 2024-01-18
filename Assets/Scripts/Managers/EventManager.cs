@@ -165,6 +165,7 @@ public static class EventNames
     public static readonly string ScreenShown = "ScreenShown";
     public static readonly string PlaySound = "PlaySound";
     public static readonly string PrepareGame = "PrepareGame";
+    public static readonly string SetCamera = "SetCamera";
     public static readonly string GameStart = "GameStart";
     public static readonly string GameStop = "GameStop";
     public static readonly string InstantiateBooster = "InstantiateBooster";
@@ -175,12 +176,10 @@ public static class EventNames
     public static readonly string CollectBubbles = "CollectBubbles";
     public static readonly string DestroyBlastable = "DestroyBlastable";
     public static readonly string UpdateMoveCount = "UpdateMoveCount";
-    public static readonly string UpdateMoveText = "UpdateHoveText";
     public static readonly string UpdateTargetCards = "UpdateTargetCards";
     public static readonly string LevelSuccess = "LevelSuccess";
     public static readonly string LevelFail = "LevelFail";
     public static readonly string ResetLevel = "ResetLevel";
     public static readonly string ResetBlastables = "ResetBlastables";
-    public static readonly string ResetPool = "ResetPool";
 
 }

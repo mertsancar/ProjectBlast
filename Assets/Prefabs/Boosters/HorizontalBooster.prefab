@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2002517522285384230
+--- !u!1 &227092733174132171
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,37 +8,69 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3097430310134467702}
-  - component: {fileID: 138521560696685401}
+  - component: {fileID: 1162367909359458769}
   m_Layer: 0
-  m_Name: horizontalBoosterIcon
+  m_Name: Icons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3097430310134467702
+--- !u!4 &1162367909359458769
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2002517522285384230}
+  m_GameObject: {fileID: 227092733174132171}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4057101064630648997}
+  m_Father: {fileID: 1604843250514980214}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5359774302294758950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4057101064630648997}
+  - component: {fileID: 8682880750938163653}
+  m_Layer: 0
+  m_Name: HorizontalBoosterIcon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4057101064630648997
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5359774302294758950}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.14753948, y: 0.14753948, z: 0.14753948}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1604843250514980214}
+  m_Father: {fileID: 1162367909359458769}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &138521560696685401
+--- !u!212 &8682880750938163653
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2002517522285384230}
+  m_GameObject: {fileID: 5359774302294758950}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -70,9 +102,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 386511743
-  m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingLayerID: -659734227
+  m_SortingLayer: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 1c1714bb8e3d0924dadafbe4eb28d00c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -117,8 +149,8 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3097430310134467702}
   - {fileID: 1797116596934061424}
+  - {fileID: 1162367909359458769}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7668982232969332012
@@ -198,7 +230,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!58 &5805003829848327734
 CircleCollider2D:
@@ -249,9 +281,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blastableType: 1
   blastEffect: {fileID: 1891949833713632280}
-  rb: {fileID: -2442125304510769171}
-  collider: {fileID: 0}
-  type: 0
+  collider: {fileID: 5805003829848327734}
+  boosterIcons:
+  - {fileID: 5359774302294758950}
 --- !u!1001 &1801147165908427436
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -323,6 +355,10 @@ PrefabInstance:
     - target: {fileID: 198940806705080976, guid: 46e56f62e4ff899488d1b27766d1eb6d, type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 199813557855125094, guid: 46e56f62e4ff899488d1b27766d1eb6d, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

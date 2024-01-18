@@ -13,35 +13,43 @@ namespace Managers
     public class DistributionManager : MonoBehaviour
     {
         public static List<BaseBlastable> blastables = new List<BaseBlastable>();
-        public static float CollisionCheckDistance = 0.6f;
-        public static float GotoTargetDuration = 0.15f;
         
-        public List<Bubble> bubblePrefabs;
-        public List<Booster> boosterPrefabs;
-        public Transform blastablesObject;
+        [SerializeField] private BlastablePooling blastablePooling;
+        [SerializeField] private Transform blastablesObject;
+        [SerializeField] private float bubbleInstantiatingDelay = 0.02f;
+        [SerializeField] private float bubbleInstantiatingForce = 150f;
         
-        [SerializeField] private float ballInstantiatingDelay = 0.02f;
-        [SerializeField] private float ballInstantiatingForce = 150f;
+        private float _gotoTargetDuration = 0.1f;
+
+        public int poolSize = 0;
+        public int currentBubbleSize = 0;
         
+        private void Update()
+        {
+            poolSize = blastablePooling.transform.childCount;
+            currentBubbleSize = blastablesObject.transform.childCount;
+        }
+
         private void Start()
         {
             EventManager.Instance.AddListener(EventNames.PrepareGame, () => StartCoroutine(InstantiateBubbles(LevelManager.CurrentLevelInfo)));
             EventManager.Instance.AddListener(EventNames.InstantiateBubbles, (bubbleColor) => InstantiateBubble((BubbleColor)bubbleColor));
-            EventManager.Instance.AddListener(EventNames.InstantiateBubblesAfterBlast, (bubbleCount) => StartCoroutine(InstantiateBubblesAfterBlast((int)bubbleCount)));
+            EventManager.Instance.AddListener(EventNames.InstantiateBubblesAfterBlast, (bubbleCount, delay) => StartCoroutine(InstantiateBubblesAfterBlast((int)bubbleCount, (float) delay)));
             EventManager.Instance.AddListener(EventNames.InstantiateBooster, (booster, position) => InstantiateBooster((BoosterType)booster, (Vector2)position));
             EventManager.Instance.AddListener(EventNames.TapBlastable, (blastable) => TapBlastable((BaseBlastable)blastable));
             EventManager.Instance.AddListener(EventNames.BlastBubbles, (bubbles) => BlastBubbles((List<int>)bubbles));
-            EventManager.Instance.AddListener(EventNames.CollectBubbles, (bubbles, target) => CollectBubbles((List<int>)bubbles, (TargetBubbleCard) target));
+            EventManager.Instance.AddListener(EventNames.CollectBubbles, (bubbles) => CollectBubbles((List<int>)bubbles));
             EventManager.Instance.AddListener(EventNames.DestroyBlastable, (blastable) => StartCoroutine(DestroyBlastable((BaseBlastable)blastable)));
-            EventManager.Instance.AddListener(EventNames.ResetBlastables, DestroyAllBlastables);
+            EventManager.Instance.AddListener(EventNames.ResetBlastables, ResetAllBlastables);
         }
         
         private  IEnumerator InstantiateBubbles(LevelInfo levelInfo)
         {
             yield return new WaitForSeconds(0.3f);
+            
             var colorIndex = -1;
             var currentTarget = 0f;
-            var bubblePrefabsRandom = new List<Bubble>();
+            var bubbleColorIndexesRandom = new List<int>();
             var ballCount = levelInfo.ballCount;
             for (int i = 0; i < ballCount; i++)
             {
@@ -50,35 +58,39 @@ namespace Managers
                     colorIndex++;
                     currentTarget += ballCount * levelInfo.colorPercentages[colorIndex].percentage * 0.01f;
                 }
-                bubblePrefabsRandom.Add(bubblePrefabs[(int)(levelInfo.colorPercentages[colorIndex].color)]);
+                bubbleColorIndexesRandom.Add((int)levelInfo.colorPercentages[colorIndex].color);
             }
             
-            var count = bubblePrefabsRandom.Count;
+            var count = bubbleColorIndexesRandom.Count;
             var last = count - 1;
             for (var i = 0; i < last; ++i)
             {
                 var r = Random.Range(i, count);
-                (bubblePrefabsRandom[i], bubblePrefabsRandom[r]) = (bubblePrefabsRandom[r], bubblePrefabsRandom[i]);
+                (bubbleColorIndexesRandom[i], bubbleColorIndexesRandom[r]) = (bubbleColorIndexesRandom[r], bubbleColorIndexesRandom[i]);
             }
             
+            var bubbleColorList = Enum.GetValues(typeof(BubbleColor)).Cast<BubbleColor>().ToList();
             for (int i = 0; i < ballCount; i++)
             {
-                InstantiateBubble(bubblePrefabsRandom[i].GetColor());
-                yield return new WaitForSeconds(ballInstantiatingDelay);
+                InstantiateBubble(bubbleColorList[bubbleColorIndexesRandom[i]]);
+                yield return new WaitForSeconds(bubbleInstantiatingDelay);
             }
 
             EventManager.Instance.TriggerEvent(EventNames.PlaySound, AudioTag.BubblesFalling, 0f);
             EventManager.Instance.TriggerEvent(EventNames.GameStart);
         }
         
-        private IEnumerator InstantiateBubblesAfterBlast(int bubbleCount)
+        private IEnumerator InstantiateBubblesAfterBlast(int bubbleCount, float delay = 0f)
         {
+            yield return new WaitForSeconds(delay);
+            
             var indexes = GetBubblesColorIndexes();
+            var bubbleColorList = Enum.GetValues(typeof(BubbleColor)).Cast<BubbleColor>().ToList();
             for (int i = 0; i < bubbleCount; i++)
             {
                 var index = indexes[Random.Range(0, indexes.Count)];
-                InstantiateBubble(bubblePrefabs[index].GetColor());
-                yield return new WaitForSeconds(ballInstantiatingDelay);
+                InstantiateBubble(bubbleColorList[index]);
+                yield return new WaitForSeconds(bubbleInstantiatingDelay);
             }
             
         }
@@ -104,25 +116,20 @@ namespace Managers
         
         private void InstantiateBubble(BubbleColor bubbleColor)
         {
-            var bubbleObject = BubbleFactory(bubbleColor).transform;
+            var bubbleObject = blastablePooling.PopFromPool(bubbleColor).transform; 
             bubbleObject.position = new Vector3(Random.Range(-1f, 1f), Camera.main.transform.position.y + 12, 0);
             bubbleObject.rotation = Quaternion.identity;
             bubbleObject.SetParent(blastablesObject);
-            bubbleObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, -ballInstantiatingForce));
+            bubbleObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, -bubbleInstantiatingForce));
 
             var bubble = bubbleObject.GetComponent<Bubble>();
             blastables.Add(bubble);
             
         }
         
-        private Bubble BubbleFactory(BubbleColor color)
-        {
-            return Instantiate(bubblePrefabs.Find(bubble => bubble.GetColor() == color), transform);
-        }
-        
         private void InstantiateBooster(BoosterType boosterType, Vector2 position)
         {
-            var boosterObject = BoosterFactory(boosterType).transform;
+            var boosterObject = blastablePooling.PopFromPool(boosterType).transform;
             boosterObject.localPosition = position;
             boosterObject.rotation = Quaternion.identity;
             boosterObject.SetParent(blastablesObject);
@@ -130,22 +137,7 @@ namespace Managers
             var booster = boosterObject.GetComponent<Booster>();
             blastables.Add(booster);
         }
-    
-        private Booster BoosterFactory(BoosterType type)
-        {
-            return Instantiate(boosterPrefabs.Find(booster => booster.GetBoosterType() == type), transform);
-        }
 
-        private void CollectBubbles(List<int> bubbleIndexes, TargetBubbleCard target)
-        {
-            for (int i = 0; i < bubbleIndexes.Count; i++)
-            {
-                var index = bubbleIndexes[i];
-                var bubble = (Bubble)blastables.Find(bubble => bubble.GetInstanceID() == index);
-                bubble.GotoTargetCard(target, i * GotoTargetDuration);
-            }
-        }
-        
         private void TapBlastable(BaseBlastable blastable)
         {
             blastable.Tap();
@@ -159,7 +151,22 @@ namespace Managers
                 bubble.Blast();
             }
             
-            EventManager.Instance.TriggerEvent(EventNames.PlaySound, AudioTag.BlastBubbles, 0f);;
+            EventManager.Instance.TriggerEvent(EventNames.PlaySound, AudioTag.BlastBubbles, 0f);
+            
+            EventManager.Instance.TriggerEvent(EventNames.InstantiateBubblesAfterBlast, bubbleIndexes.Count, bubbleIndexes.Count * BaseBlastable.BlastEffectDuration);
+        }
+        
+        private void CollectBubbles(List<int> bubbleIndexes)
+        {
+            for (int i = 0; i < bubbleIndexes.Count; i++)
+            {
+                var index = bubbleIndexes[i];
+                var bubble = (Bubble)blastables.Find(b => b.GetInstanceID() == index);
+                var target = GameController.Instance.targetBubblesLayout.GetTargets().Find(target => target.GetColor() == bubble.GetColor() && !target.isCompleted);
+                bubble.GotoTargetCard(target, i * _gotoTargetDuration);
+            }
+            
+            EventManager.Instance.TriggerEvent(EventNames.InstantiateBubblesAfterBlast, bubbleIndexes.Count, bubbleIndexes.Count * _gotoTargetDuration);
         }
 
         private IEnumerator DestroyBlastable(BaseBlastable blastable, float delay = 0)
@@ -167,7 +174,7 @@ namespace Managers
             yield return new WaitForSeconds(delay);
             
             blastables.Remove(blastable);
-            Destroy(blastable.gameObject);
+            blastablePooling.PushToPool(blastable);
             
             if (GameController.Instance.IsPlaying && GameController.Instance.targetBubblesLayout.CheckTargetsCompleted())
             {
@@ -175,7 +182,7 @@ namespace Managers
             }
         }
 
-        private void DestroyAllBlastables()
+        private void ResetAllBlastables()
         {
             foreach (var blastable in blastables)
             {
@@ -184,7 +191,7 @@ namespace Managers
             blastables.Clear();
         }
 
-        // private void FixedUpdate()
+        // private void CheckGameLock()
         // {
         //     foreach (var blastable in blastables)
         //     {

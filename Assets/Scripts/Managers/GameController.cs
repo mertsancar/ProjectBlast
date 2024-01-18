@@ -39,10 +39,11 @@ public class GameController : MonoBehaviour
         EventManager.Instance.AddListener(EventNames.GameStart, () => IsPlaying = true);
         EventManager.Instance.AddListener(EventNames.GameStop, () => IsPlaying = false);
         EventManager.Instance.AddListener(EventNames.UpdateMoveCount, UpdateMoveCount);
+        EventManager.Instance.AddListener(EventNames.UpdateMoveCount, (moveCount) => SetMoveCount((int)moveCount));
         EventManager.Instance.AddListener(EventNames.LevelSuccess, OnLevelSuccess);
         EventManager.Instance.AddListener(EventNames.LevelFail, OnLevelFail);
         EventManager.Instance.AddListener(EventNames.UpdateTargetCards, UpdateTargetCards);
-        EventManager.Instance.AddListener(EventNames.UpdateMoveText, UpdateMoveText);
+        EventManager.Instance.AddListener(EventNames.SetCamera, SetCamera);
     }
     
     private void SetLevel()
@@ -52,15 +53,15 @@ public class GameController : MonoBehaviour
     
     private void SetCamera()
     {
-        var top = Screen.height;
-        var mid = Screen.height / 2f;
-
-        var topWorldPoint = Camera.main.ScreenToWorldPoint(new Vector3(0, top, -10));
-        var midWorldPoint = Camera.main.ScreenToWorldPoint(new Vector3(0, mid, -10));
-
-        var distance = Vector3.Distance(midWorldPoint, topWorldPoint);
-        
-        Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y + distance, -10);
+        var screenHeight = Screen.height;
+        var cameraSize = Camera.main.orthographicSize = screenHeight * 0.003f;
+        Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, cameraSize, -11);
+    }
+    
+    private void SetMoveCount(int _moveCount)
+    {
+        moveCount = _moveCount;
+        moveCountText.text = "Move " + moveCount;
     }
     
     private void UpdateMoveCount()
@@ -99,7 +100,7 @@ public class GameController : MonoBehaviour
     {
         EventManager.Instance.TriggerEvent(EventNames.GameStop);
         
-        //EventManager.Instance.TriggerEvent(EventNames.ShowScreenRequested, typeof(LevelFailScreen), null);
+        EventManager.Instance.TriggerEvent(EventNames.ShowScreenRequested, typeof(LevelFailScreen), null);
     }
 
     public void OnClickSettingsButton()

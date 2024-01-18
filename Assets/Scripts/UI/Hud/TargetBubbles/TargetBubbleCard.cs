@@ -6,28 +6,45 @@ using UnityEngine.UI;
 using Managers;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TargetBubbleCard : MonoBehaviour
 {
-    public BubbleColor color;
-    public int count;
     public bool isCompleted;
-    public AudioSource audioSource;
     
+    [SerializeField] private Image image;
     [SerializeField] private TMP_Text countText;
     [SerializeField] private ParticleSystem completeEffect;
+    [SerializeField] private AudioSource audioSource;
+    
+    private int _count;
+    private BubbleColor _color;
 
-    public void Init(int _count)
+    public void Init(int count, BubbleColor color)
     {
-        count = _count;
-        countText.text = count.ToString();
+        _count = count;
+        _color = color;
+        countText.text = _count.ToString();
+        image.color = this._color switch
+        {
+            BubbleColor.Red => Color.red,
+            BubbleColor.Green => Color.green,
+            BubbleColor.Blue => Color.blue,
+            BubbleColor.Pink => Color.magenta,
+            BubbleColor.Orange => Color.yellow,
+            _ => throw new ArgumentOutOfRangeException(nameof(this._color), this._color, null)
+        };
     }
 
     public void UpdateCount(int _count)
     {
-        Init(_count);
+        Init(_count, _color);
         EventManager.Instance.TriggerEvent(EventNames.PlaySound, audioSource, AudioTag.CollectBubble, 0f);
     }
+    
+    public BubbleColor GetColor() => _color;
+    
+    public int GetCount() => _count;
 
     public void CompleteTarget()
     {

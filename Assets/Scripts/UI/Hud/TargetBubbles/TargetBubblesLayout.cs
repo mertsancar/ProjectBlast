@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TargetBubblesLayout : MonoBehaviour
 {
-    [SerializeField] private List<TargetBubbleCard> cardPrefabs;
+    [SerializeField] private TargetBubbleCard cardPrefab;
     [SerializeField] private List<TargetBubbleCard> cards;
     [SerializeField] private Transform layout;
     
@@ -34,17 +34,11 @@ public class TargetBubblesLayout : MonoBehaviour
             Destroy(layout.transform.GetChild(i).gameObject);
         }
         
-        foreach (var card in cardPrefabs)
+        foreach (var targetColor in LevelManager.CurrentLevelInfo.targetColors)
         {
-            foreach (var targetColor in LevelManager.CurrentLevelInfo.targetColors)
-            {
-                if (targetColor.color == card.color)
-                {
-                    var bubbleCard = Instantiate(card, layout.transform).GetComponent<TargetBubbleCard>();
-                    bubbleCard.Init(targetColor.count);
-                    cards.Add(bubbleCard);
-                }
-            }
+            var bubbleCard = Instantiate(cardPrefab, layout.transform);
+            bubbleCard.Init(targetColor.count, targetColor.color);
+            cards.Add(bubbleCard);
         }
     }
     

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
@@ -6,8 +7,27 @@ using UnityEngine;
 
 public class Bubble : BaseBlastable
 {
-    [SerializeField] private BubbleColor color;
-    public BubbleColor GetColor() => color;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    
+    private BubbleColor _color;
+    private static float _collisionCheckDistance = 0.6f;
+
+    public void Init(BubbleColor color)
+    {
+        _color = color;
+        spriteRenderer.color = color switch
+        {
+            BubbleColor.Red => Color.red,
+            BubbleColor.Green => Color.green,
+            BubbleColor.Blue => Color.blue,
+            BubbleColor.Pink => Color.magenta,
+            BubbleColor.Orange => Color.yellow,
+            _ => throw new ArgumentOutOfRangeException(nameof(color), color, null)
+        };
+
+    }
+    
+    public BubbleColor GetColor() => _color;
 
     public override void Tap()
     {
@@ -18,7 +38,7 @@ public class Bubble : BaseBlastable
             .FindAll(bubble => bubble.GetColor() == GetColor());
         
         var bubblesIndexes = GetNeighboursBubbles(this, new List<int>(), sameColorBalls);
-        var target = GameController.Instance.targetBubblesLayout.GetTargets().Find(target => target.color == GetColor() && !target.isCompleted);
+        var target = GameController.Instance.targetBubblesLayout.GetTargets().Find(target => target.GetColor() == GetColor() && !target.isCompleted);
         
         if (bubblesIndexes.Count >= 4 && !target)
         {
@@ -32,14 +52,13 @@ public class Bubble : BaseBlastable
                 
             if (target)
             {
-                EventManager.Instance.TriggerEvent(EventNames.CollectBubbles, bubblesIndexes, target);
+                EventManager.Instance.TriggerEvent(EventNames.CollectBubbles, bubblesIndexes);
             }
             else
             {
                 EventManager.Instance.TriggerEvent(EventNames.BlastBubbles, bubblesIndexes);
             }
             
-            EventManager.Instance.TriggerEvent(EventNames.InstantiateBubblesAfterBlast, bubblesIndexes.Count);
         }
     }
 
@@ -48,7 +67,7 @@ public class Bubble : BaseBlastable
         collider.enabled = false;
         transform.DOMove(target.transform.position, delay).OnComplete(() =>
         {
-            var count = target.count;
+            var count = target.GetCount();
             count--;
             if (count == 0)
             {
@@ -71,7 +90,7 @@ public class Bubble : BaseBlastable
         foreach (var bubble in sameColorBalls)
         {
             var distance = Vector3.Distance(bubble.transform.position, currentBallPos);
-            if (distance < DistributionManager.CollisionCheckDistance && !neighbourList.Contains(bubble.GetInstanceID()))
+            if (distance < _collisionCheckDistance && !neighbourList.Contains(bubble.GetInstanceID()))
             {
                 neighbourList.Add(bubble.GetInstanceID());
                 var ret = GetNeighboursBubbles(bubble, neighbourList, sameColorBalls);
@@ -96,6 +115,6 @@ public enum BubbleColor
     Green = 1,
     Blue = 2,
     Pink = 3,
-    Orange = 4
+    Orange = 4,
 }
 

@@ -23,11 +23,10 @@ namespace Managers
             CurrentLevelInfo = GetLevelInfoByIndex(currentLevelIndex);
             var levelPrefab = CurrentLevelInfo.levelPrefab;
             
-            GameController.Instance.moveCount = CurrentLevelInfo.moveCount;
-
             level = Instantiate(levelPrefab, transform).GetComponent<Level>();
             
-            EventManager.Instance.TriggerEvent(EventNames.UpdateMoveCount);
+            EventManager.Instance.TriggerEvent(EventNames.UpdateMoveCount, CurrentLevelInfo.moveCount);
+            EventManager.Instance.TriggerEvent(EventNames.SetCamera);
             EventManager.Instance.TriggerEvent(EventNames.UpdateTargetCards);
         }
 
@@ -44,7 +43,6 @@ namespace Managers
         private void ResetLevel()
         {
             EventManager.Instance.TriggerEvent(EventNames.ResetBlastables);
-            EventManager.Instance.TriggerEvent(EventNames.ResetPool);
             
             Destroy(level.gameObject);
             

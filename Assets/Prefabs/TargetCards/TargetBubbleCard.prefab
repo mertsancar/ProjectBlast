@@ -127,12 +127,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f32a4ecafe0923d4187b9fd62a4d6383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: 0
-  count: 0
   isCompleted: 0
-  audioSource: {fileID: 6777007953424707538}
+  image: {fileID: 8536189700324607002}
   countText: {fileID: 6529140913296038242}
   completeEffect: {fileID: 6003642484438341031}
+  audioSource: {fileID: 6777007953424707538}
 --- !u!1 &7426684793014242762
 GameObject:
   m_ObjectHideFlags: 0

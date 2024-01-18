@@ -7,10 +7,10 @@ using UnityEngine;
 
 public class BlastablePooling : MonoBehaviour
 {
-    public List<Bubble> bubblePrefabs;
-    public List<Booster> boosterPrefabs;
-    private Dictionary<BubbleColor, List<Bubble>> _bubblePool;
-    private Dictionary<BoosterType, List<Booster>> _boosterPool;
+    public Bubble bubblePrefab;
+    public Booster boosterPrefab;
+    
+    private Dictionary<BlastableType, List<BaseBlastable>> _blastablePool;
 
     public void PushToPool(BaseBlastable blastable)
     {
@@ -29,11 +29,12 @@ public class BlastablePooling : MonoBehaviour
     
     public Bubble PopFromPool(BubbleColor bubbleColor)
     {
-        if (_bubblePool == null) Init();
+        if (_blastablePool == null) Init();
         
-        var pool = _bubblePool[bubbleColor];
+        var pool = _blastablePool[BlastableType.Bubble];
         if (pool.Count == 0) PushToBubblePool(BubbleFactory(bubbleColor));
-        var bubble = pool.Last();
+        var bubble = (Bubble)pool.Last();
+        bubble.Init(bubbleColor);
         pool.Remove(bubble);
         bubble.gameObject.SetActive(true);
         return bubble;
@@ -41,34 +42,22 @@ public class BlastablePooling : MonoBehaviour
     
     public Booster PopFromPool(BoosterType type)
     {
-        if (_bubblePool == null) Init();
+        if (_blastablePool == null) Init();
         
-        var pool = _boosterPool[type];
+        var pool = _blastablePool[BlastableType.Booster];
         if (pool.Count == 0) PushToBoosterPool(BoosterFactory(type));
-        var bubble = pool.Last();
-        pool.Remove(bubble);
-        bubble.gameObject.SetActive(true);
-        return bubble;
-    }
-
-    public List<int> GetBubblePoolColorsIndexes()
-    {
-        var bubblePoolList = _bubblePool.ToList(); 
-        var indexes = new List<int>();
-        for (int i = 0; i < _bubblePool.Count; i++)
-        {
-            var index = (int)bubblePoolList[i].Key;
-            if (!indexes.Contains(index)) indexes.Add(index);
-        }
-
-        return indexes;
+        var booster = (Booster)pool.Last();
+        booster.Init(type);
+        pool.Remove(booster);
+        booster.gameObject.SetActive(true);
+        return booster;
     }
 
     private void PushToBubblePool(Bubble bubble)
     {
-        if (_bubblePool == null) Init();
+        if (_blastablePool == null) Init();
         
-        var pool = _bubblePool[bubble.GetColor()];
+        var pool = _blastablePool[BlastableType.Bubble];
         pool.Add(bubble);
         bubble.transform.SetParent(transform);
         bubble.gameObject.SetActive(false);
@@ -76,9 +65,9 @@ public class BlastablePooling : MonoBehaviour
     
     private void PushToBoosterPool(Booster booster)
     {
-        if (_bubblePool == null) Init();
+        if (_blastablePool == null) Init();
         
-        var pool = _boosterPool[booster.GetBoosterType()];
+        var pool = _blastablePool[BlastableType.Booster];
         pool.Add(booster);
         booster.transform.SetParent(transform);
         booster.gameObject.SetActive(false);
@@ -86,32 +75,29 @@ public class BlastablePooling : MonoBehaviour
     
     private void Init()
     {
-        _bubblePool = new Dictionary<BubbleColor, List<Bubble>>();
-        _boosterPool = new Dictionary<BoosterType, List<Booster>>();
+        _blastablePool = new Dictionary<BlastableType, List<BaseBlastable>>();
 
-        var bubbleColorList = Enum.GetValues(typeof(BubbleColor)).Cast<BubbleColor>().ToList();
-        var boosterTypeList = Enum.GetValues(typeof(BoosterType)).Cast<BoosterType>().ToList();
+        var blastableTypeList = Enum.GetValues(typeof(BlastableType)).Cast<BlastableType>().ToList();
 
-        foreach (var bubbleColor in bubbleColorList)
+        foreach (var blastableType in blastableTypeList)
         {
-            _bubblePool[bubbleColor] = new List<Bubble>();
-        }
-
-        foreach (var boosterType in boosterTypeList)
-        {
-            _boosterPool[boosterType] = new List<Booster>();
+            _blastablePool[blastableType] = new List<BaseBlastable>();
         }
         
     }
 
     private Bubble BubbleFactory(BubbleColor color)
     {
-        return Instantiate(bubblePrefabs.Find(bubble => bubble.GetColor() == color), transform);
+        var bubble = Instantiate(bubblePrefab, transform);
+        bubble.Init(color);
+        return bubble;
     }
     
     private Booster BoosterFactory(BoosterType type)
     {
-        return Instantiate(boosterPrefabs.Find(booster => booster.GetBoosterType() == type), transform);
+        var booster = Instantiate(boosterPrefab, transform);
+        booster.Init(type);
+        return booster;
     }
         
  
